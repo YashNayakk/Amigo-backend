@@ -14,7 +14,7 @@ const metricSchema = new mongoose.Schema({
 
   unit: {
     type: String,
-    required: true
+    //required: true
   },
 
   normalized: {

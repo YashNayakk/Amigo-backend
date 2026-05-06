@@ -54,9 +54,9 @@ class AuthService {
       id: user._id,
       email: user.email,
     });
-
+    console.log("Generated JWT:", token);
     user.password = undefined;
-
+    
     return { user, token };
   }
 }
