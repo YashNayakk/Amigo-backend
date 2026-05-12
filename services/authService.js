@@ -49,7 +49,7 @@ class AuthService {
     if (!isMatch) {
       throw new Error("Invalid credentials");
     }
-
+    console.log("creating token")
     const token = this.createToken({
       id: user._id,
       email: user.email,
