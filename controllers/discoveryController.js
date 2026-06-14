@@ -1,8 +1,16 @@
 const User = require("../models/userModel");
+const mongoose = require("mongoose");
 
 exports.getDiscovery = async (req, res) => {
+   const rawId = req?.user?.id ;
+   console.log(req?.user?.id, typeof req?.user?.id)
    try {
       const users = await User.aggregate([
+         {
+            $match: {
+               _id:{$ne: new mongoose.Types.ObjectId(rawId)}
+            }
+         },
          {
             $lookup: {
                from: "performances",
@@ -26,8 +34,7 @@ exports.getDiscovery = async (req, res) => {
             },
          },
       ]);
-
-      res.json(users);
+      res.json(users)
    } catch (err) {
       console.error(err);
       res.status(500).json({ message: "Discovery failed", error: err.message });

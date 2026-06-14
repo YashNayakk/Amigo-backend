@@ -6,6 +6,6 @@ const HabitController = require("../controllers/habitController");
 router.post("/create", auth, HabitController.createHabit);
 router.post("/complete", auth, HabitController.logHabit);
 router.get("/get", auth, HabitController.getUserHabits);
-router.post("/disable", auth, HabitController.disableHabit);
+router.delete("/disable/:id", auth, HabitController.disableHabit);
 
 module.exports = router;

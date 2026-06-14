@@ -90,13 +90,14 @@ class HabitService {
 
     static async getUserHabits(userId) {
         return Habit.find({ user: userId, active: true })
-            .select('name type unit target targetType frequency streak longestStreak logs lastCompletedAt createdAt')
+            .select('_id user name type unit target targetType frequency streak longestStreak logs lastCompletedAt createdAt')
             .sort({ createdAt: -1 })
             .lean();
     }
 
 
     static async disableHabit(userId, habitId) {
+        console.log(`Disabling habit ${habitId} for user ${userId}`);
         const habit = await Habit.findOneAndUpdate(
             { _id: habitId, user: userId },
             { active: false },

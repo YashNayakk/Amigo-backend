@@ -44,6 +44,9 @@ exports.dailyCheckIn = async (req, res) => {
 };
 
 exports.getMetricHistory = async (req, res) => {
+  const now = new Date();
+  const today = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
+  console.log("Today's date:", today);
   try {
     const userId = req?.user?.id;
     const { context, metricType } = req?.query;
@@ -51,18 +54,36 @@ exports.getMetricHistory = async (req, res) => {
     if (context) query.context = context;
     if (metricType) query["metrics.metricType"] = metricType;
 
-    const data = await Metric
-      .find(query)
-      .sort({ date: 1 });
+    const data = await Metric.find(query).sort({ date: 1 });
 
-    res.status(200).json({
-      success: true,
-      data
+    const todayItems = data.some(item => {
+      const d = new Date(item.date).toISOString().split('T')[0];
+      console.log(d)
+      return today === d
     });
+
+    console.log(todayItems)
+
+    if (!todayItems) {
+      res.status(200).json({
+        success: true,
+        data,
+        done:false
+      });
+    } else {
+      res.status(400).json({
+        success: false,
+        message: "Check-in already done",
+        done: true
+      })
+    }
+
   } catch (error) {
+    console.error("Error fetching metric history:", error);
     res.status(500).json({
       success: false,
-      message: "Failed to fetch metric history"
+      message: "failed to fetch metric history",
+      done: false
     });
   }
 };

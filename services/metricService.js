@@ -26,9 +26,11 @@ class MetricService {
       };
     });
 
+    const normalizedDate = new Date(`${date.split("T")[0]}T12:00:00.000Z`);
+
     const entry = await MetricEntry.create({
       user: userId,
-      date,
+      date: normalizedDate,
       context,
       metrics: processedMetrics,
       score: score  

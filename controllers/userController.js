@@ -55,26 +55,22 @@ exports.getProfile = async (req, res) => {
 
 exports.updateProfile = async (req, res) => {
   try {
-    console.log('Called!', req.user, req.body, req.file);
     const updates = { ...req.body };
 
-    
     if (req.file) {
-      
+      // Delete old profile picture if it exists
+      const existingUser = await UserService.getProfile(req.user.id);
+      if (existingUser?.profilePicture) {
+        const oldPath = path.join(__dirname, "..", existingUser.profilePicture);
+        if (fs.existsSync(oldPath)) fs.unlinkSync(oldPath);
+      }
+
       updates.profilePicture = `/uploads/profiles/${req.file.filename}`;
     }
 
     const updatedUser = await UserService.updateProfile(req?.user?.id, updates);
-
-    res.status(200).json({
-      success: true,
-      data: updatedUser,
-      message: "Profile updated successfully",
-    });
+    res.status(200).json({ success: true, data: updatedUser, message: "Profile updated successfully" });
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: error.message,
-    });
+    res.status(500).json({ success: false, message: error.message });
   }
 };
