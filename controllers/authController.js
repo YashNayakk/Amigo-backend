@@ -28,6 +28,7 @@ exports.signup = async (req, res) => {
       message: "User registered successfully",
       data: user,
       token,
+      refreshToken
     });
   } catch (error) {
     res.status(400).json({ success: false, message: error.message });
@@ -48,17 +49,17 @@ exports.login = async (req, res) => {
 
     res.cookie("refreshToken", refreshToken, COOKIE_OPTS);
 
-    res.status(200).json({ success: true, token, user, message: "Login successful" });
+    res.status(200).json({ success: true, token, user, message: "Login successful", refreshToken });
   } catch (error) {
     console.error("Login error:", error);
     res.status(401).json({ success: false, message: error.message });
   }
 };
 
-// ── refresh token ─────────────────────────────────────────────────────────────
+
 exports.refreshToken = async (req, res) => {
   // FIX: read from req.cookies (was req.cookies — correct — but logic order was wrong)
-  const refreshToken =req.body.refreshToken ;
+  const refreshToken = req?.body?.refreshToken;
 
   if (!refreshToken) {
     return res.status(401).json({ message: "No refresh token provided" });
@@ -68,7 +69,7 @@ exports.refreshToken = async (req, res) => {
   let decoded;
   try {
     // FIX: use JWT_REFRESH_SECRET (was JWT_SECRET — same secret for both tokens)
-    decoded = jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET);
+    decoded = jwt.verify(refreshToken, process.env.JWT_SECRET);
   } catch {
     return res.status(401).json({ message: "Invalid refresh token" });
   }
@@ -95,13 +96,12 @@ exports.refreshToken = async (req, res) => {
 
   const token = AuthService.accessToken({ id: decoded.id, email: decoded.email });
 
-  res.status(200).json({ success: true, message: "Token refreshed successfully", token, newRefreshToken });
+  res.status(200).json({ success: true, message: "Token refreshed successfully", token, refreshToken: newRefreshToken });
 };
 
-// ── logout ───────────────────────────────────────────────────────────────────
 exports.logout = async (req, res) => {
   // FIX: was "res?.cookies" — should be "req.cookies"
-  const refreshToken = req.cookies?.refreshToken;
+  const refreshToken = req?.body?.refreshToken;
 
   if (!refreshToken) {
     return res.status(400).json({ message: "Refresh token not found" });
