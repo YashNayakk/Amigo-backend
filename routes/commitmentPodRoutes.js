@@ -51,7 +51,7 @@ router.get('/notifications', auth, async (req, res) => {
 
 router.patch('/notifications/read', auth, async (req, res) => {
   try {
-    await CommitmentPodService.markNotificationsRead(req.user.id);
+    await CommitmentPodService.markNotificationsRead(req?.user?.id);
     res.json({ success: true });
   } catch (err) {
     res.status(500).json({ success: false, error: err.message });
@@ -70,7 +70,7 @@ router.delete('/:id', auth, async (req, res) => {
 
 router.delete('/:id/witnesses/:witnessId', auth, async (req, res) => {
   try {
-    const pod = await CommitmentPodService.removeWitness(req.user.id, req.params.id, req.params.witnessId);
+    const pod = await CommitmentPodService.removeWitness(req?.user?.id, req?.params?.id, req?.params?.witnessId);
     res.json({ success: true, pod });
   } catch (err) {
     const status = err.message.includes('Only the admin') ? 403 : 400;
@@ -80,7 +80,7 @@ router.delete('/:id/witnesses/:witnessId', auth, async (req, res) => {
 
 router.get('/:id/streaks', auth, async (req, res) => {
   try {
-    const streaks = await CommitmentPodService.getPodStreaks(req.params.id, req.user.id);
+    const streaks = await CommitmentPodService.getPodStreaks(req?.params?.id, req?.user?.id);
     res.json({ success: true, streaks });
   } catch (err) {
     const status = err.message.includes('Not authorized') ? 403 : 400;
@@ -90,7 +90,7 @@ router.get('/:id/streaks', auth, async (req, res) => {
 
 router.get('/:id', auth, async (req, res) => {
   try {
-    const pod = await CommitmentPodService.getPodById(req.params.id, req.user.id);
+    const pod = await CommitmentPodService.getPodById(req?.params?.id, req?.user?.id);
     res.json({ success: true, pod });
   } catch (err) {
     res.status(400).json({ success: false, error: err.message });
@@ -99,7 +99,7 @@ router.get('/:id', auth, async (req, res) => {
 
 router.post('/:id/join', auth, async (req, res) => {
   try {
-    const pod = await CommitmentPodService.joinPod(req.user.id, req.params.id);
+    const pod = await CommitmentPodService.joinPod(req?.user?.id, req?.params?.id);
     res.json({ success: true, pod });
   } catch (err) {
     res.status(400).json({ success: false, error: err.message });
@@ -108,7 +108,7 @@ router.post('/:id/join', auth, async (req, res) => {
 
 router.post('/:id/decline', auth, async (req, res) => {
   try {
-    await CommitmentPodService.declinePod(req.user.id, req.params.id);
+    await CommitmentPodService.declinePod(req?.user?.id, req?.params?.id);
     res.json({ success: true });
   } catch (err) {
     res.status(400).json({ success: false, error: err.message });
@@ -117,7 +117,7 @@ router.post('/:id/decline', auth, async (req, res) => {
 
 router.post('/:id/leave', auth, async (req, res) => {
   try {
-    await CommitmentPodService.leavePod(req.user.id, req.params.id);
+    await CommitmentPodService.leavePod(req?.user?.id, req?.params?.id);
     res.json({ success: true });
   } catch (err) {
     res.status(400).json({ success: false, error: err.message });
@@ -126,11 +126,11 @@ router.post('/:id/leave', auth, async (req, res) => {
 
 router.post('/:id/cards', auth, async (req, res) => {
   try {
-    const { activityName, satisfactionLevel, customMessage } = req.body;
+    const { activityName, satisfactionLevel, customMessage } = req?.body;
     if (!activityName || !satisfactionLevel) {
       return res.status(400).json({ success: false, error: 'activityName and satisfactionLevel are required' });
     }
-    const result = await CommitmentPodService.shareCard(req.user.id, req.params.id, {
+    const result = await CommitmentPodService.shareCard(req?.user?.id, req?.params?.id, {
       activityName, satisfactionLevel, customMessage,
     });
     res.status(201).json({ success: true, ...result });
@@ -141,8 +141,8 @@ router.post('/:id/cards', auth, async (req, res) => {
 
 router.get('/:id/cards', auth, async (req, res) => {
   try {
-    const { page, limit } = req.query;
-    const cards = await CommitmentPodService.getPodCards(req.params.id, req.user.id, {
+    const { page, limit } = req?.query;
+    const cards = await CommitmentPodService.getPodCards(req?.params?.id, req?.user?.id, {
       page:  parseInt(page)  || 1,
       limit: parseInt(limit) || 20,
     });
@@ -154,7 +154,7 @@ router.get('/:id/cards', auth, async (req, res) => {
 
 router.get('/:id/stats', auth, async (req, res) => {
   try {
-    const stats = await CommitmentPodService.getPodCardStats(req.params.id, req.user.id);
+    const stats = await CommitmentPodService.getPodCardStats(req?.params?.id, req?.user?.id);
     res.json({ success: true, stats });
   } catch (err) {
     res.status(400).json({ success: false, error: err.message });

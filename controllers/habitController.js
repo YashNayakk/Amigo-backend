@@ -14,7 +14,7 @@ exports.createHabit = async (req, res) => {
 
 exports.logHabit = async (req, res) => {
   try {
-    const { habitId, date, value, completed } = req.body;
+    const { habitId, date, value, completed } = req?.body;
     const habit = await HabitService.logHabit(
       req.user.id,
       habitId,
@@ -30,7 +30,7 @@ exports.logHabit = async (req, res) => {
 
 exports.getUserHabits = async (req, res) => {
   try {
-    const habits = await HabitService.getUserHabits(req.user.id);
+    const habits = await HabitService.getUserHabits(req?.user?.id);
     res.json(habits);
   } catch (error) {
     res.status(500).json({ message: error.message });

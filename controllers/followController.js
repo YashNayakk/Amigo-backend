@@ -3,8 +3,8 @@ const User = require("../models/userModel");
 
 exports.followUser = async (req, res) => {
   try {
-    const userId = req.user.id;
-    const { targetUserId } = req.body;
+    const userId = req?.user?.id;
+    const { targetUserId } = req?.body;
 
     if (userId === targetUserId) {
       return res.status(400).json({

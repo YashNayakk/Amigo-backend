@@ -58,8 +58,7 @@ exports.updateProfile = async (req, res) => {
     const updates = { ...req.body };
 
     if (req.file) {
-      // Delete old profile picture if it exists
-      const existingUser = await UserService.getProfile(req.user.id);
+      const existingUser = await UserService.getProfile(req?.user?.id);
       if (existingUser?.profilePicture) {
         const oldPath = path.join(__dirname, "..", existingUser.profilePicture);
         if (fs.existsSync(oldPath)) fs.unlinkSync(oldPath);

@@ -11,8 +11,8 @@ const COOKIE_OPTS = {
 
 exports.signup = async (req, res) => {
   try {
-    const ip = req.ip;
-    const userAgent = req.headers["user-agent"];
+    const ip = req?.ip;
+    const userAgent = req?.headers["user-agent"];
 
     const { user, token, refreshToken } = await AuthService.signup(
       req?.body,
@@ -35,8 +35,8 @@ exports.signup = async (req, res) => {
 
 exports.login = async (req, res) => {
   try {
-    const ip = req.ip;
-    const userAgent = req.headers["user-agent"];
+    const ip = req?.ip;
+    const userAgent = req?.headers["user-agent"];
 
     const { user, token, refreshToken } = await AuthService.login(
       req.body,

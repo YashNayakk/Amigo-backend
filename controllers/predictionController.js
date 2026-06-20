@@ -2,8 +2,8 @@ const Prediction = require("../models/predictionModel");
 
 exports.getPrediction = async (req, res) => {
   try {
-    const userId = req.user.id;
-    const { metricType, context } = req.query;
+    const userId = req?.user?.id;
+    const { metricType, context } = req?.query;
 
     if (!metricType || !context) {
       return res.status(400).json({
