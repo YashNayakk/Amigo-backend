@@ -3,7 +3,6 @@ const mongoose = require("mongoose");
 
 exports.getDiscovery = async (req, res) => {
    const rawId = req?.user?.id ;
-   console.log(req?.user?.id, typeof req?.user?.id)
    try {
       const users = await User.aggregate([
          {

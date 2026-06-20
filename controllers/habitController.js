@@ -38,7 +38,6 @@ exports.getUserHabits = async (req, res) => {
 };
 
 exports.disableHabit = async (req, res) => {
-  console.log(`Received request to disable habit with id ${req?.params?.id} for user ${req?.user?.id}`);
   try {
     const habit = await HabitService.disableHabit(req?.user?.id, req?.params?.id);
     res.json(habit);

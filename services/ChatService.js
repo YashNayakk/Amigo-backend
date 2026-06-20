@@ -71,7 +71,6 @@ class ChatService {
   }
 
   async getUserChats(userId) {
-    console.log("Getting chats for user:", userId);
 
     const chats = await Chat.find({
       participants: userId,
@@ -80,7 +79,6 @@ class ChatService {
       .populate("participants", "name profilePicture")
       .sort({ updatedAt: -1 });
 
-    console.log("Found chats:", chats.length);
 
     if (!chats || chats.length === 0) {
       return [];

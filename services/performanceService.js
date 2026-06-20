@@ -1,4 +1,3 @@
-// services/performanceService.js
 const Performance = require('../models/performanceModel');
 const MetricEntry = require('../models/metricEntry');
 const Habit = require('../models/habitModel');

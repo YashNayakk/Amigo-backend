@@ -97,7 +97,6 @@ class HabitService {
 
 
     static async disableHabit(userId, habitId) {
-        console.log(`Disabling habit ${habitId} for user ${userId}`);
         const habit = await Habit.findOneAndUpdate(
             { _id: habitId, user: userId },
             { active: false },

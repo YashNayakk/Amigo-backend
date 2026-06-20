@@ -65,7 +65,6 @@ class CommitmentPodService {
       if (!pod) throw new Error('Pod not found');
       if (pod.admin.toString() !== adminId.toString()) throw new Error('Only the admin can delete this pod');
       if (!pod.active) throw new Error('Pod is already deleted');
-      console.log("pod", pod)
       pod.active     = false;
       pod.deletedAt  = new Date();
       pod.deletedBy  = adminId;
@@ -86,7 +85,6 @@ class CommitmentPodService {
         }));
         await Notification.insertMany(notifications, { session });
       }
-      console.log("notify", toNotify)
       await session.commitTransaction();
       return { success: true };
 

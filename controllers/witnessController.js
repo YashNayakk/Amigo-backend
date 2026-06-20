@@ -38,7 +38,6 @@ export async function showWitnessRequests(req, res) {
 
 export async function respondWitness (req, res, next) {
   try {
-    console.log(req?.body)
     const userId = req?.user?.id;
     const { requestId, action } = req?.body;
 

@@ -11,7 +11,7 @@ class OnboardingService {
       sleepBaseline,
       chaosLevel,
     } = answers;
-    console.log(answers)
+    
     if (!primaryGoal || !feedbackStyle || !missBehavior) {
       throw new Error("Incomplete onboarding data");
     }
@@ -41,7 +41,6 @@ class OnboardingService {
       streak: 0,
       weights: scoreWeights,
     });
-    console.log(Performance)
     return { success: true };
   }
 

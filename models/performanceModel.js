@@ -1,4 +1,3 @@
-// models/performanceModel.js
 const mongoose = require("mongoose");
 
 const graphPointSchema = new mongoose.Schema({
@@ -9,8 +8,6 @@ const graphPointSchema = new mongoose.Schema({
 const calendarDaySchema = new mongoose.Schema({
     date:      { type: Date,    required: true },
     completed: { type: Boolean, default: false },
-    // intensity: 0–1, normalised from min/max daily avg score.
-    // Used by the frontend to render heatmap opacity tiers.
     intensity: { type: Number,  default: 0, min: 0, max: 1 },
 }, { _id: false });
 

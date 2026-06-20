@@ -36,7 +36,6 @@ class MetricService {
       score: score  
     });
 
-    console.log("Entry created with score:", score);
     return entry;
   }
 

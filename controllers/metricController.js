@@ -46,7 +46,6 @@ exports.dailyCheckIn = async (req, res) => {
 exports.getMetricHistory = async (req, res) => {
   const now = new Date();
   const today = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
-  console.log("Today's date:", today);
   try {
     const userId = req?.user?.id;
     const { context, metricType } = req?.query;
@@ -58,11 +57,9 @@ exports.getMetricHistory = async (req, res) => {
 
     const todayItems = data.some(item => {
       const d = new Date(item.date).toISOString().split('T')[0];
-      console.log(d)
       return today === d
     });
 
-    console.log(todayItems)
 
     if (!todayItems) {
       res.status(200).json({

@@ -4,7 +4,6 @@ import { Server } from 'socket.io';
 import dotenv from 'dotenv';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import cookieParser from 'cookie-parser';
 
 import authRoutes from './routes/auth.js';
 import userRoutes from './routes/user.js';
@@ -40,7 +39,6 @@ initializeSocketHandlers(io);
 
 
 app.use(express.json());
-app.use(cookieParser());
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 app.use((req, res, next) => {
